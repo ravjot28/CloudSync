@@ -5,6 +5,15 @@ public class DropBoxUploadRequest {
 	private byte[] file;
 	private String userName;
 	private String password;
+	private String fileName;
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 	public byte[] getFile() {
 		return file;

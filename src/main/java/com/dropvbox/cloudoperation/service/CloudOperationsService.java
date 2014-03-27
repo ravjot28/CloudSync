@@ -2,6 +2,8 @@ package com.dropvbox.cloudoperation.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
@@ -12,7 +14,6 @@ import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropdox.service.IService;
 
 public class CloudOperationsService implements IService {
-
 	@Override
 	public Object processRequest(Object dto) {
 		Object response = null;
@@ -36,8 +37,12 @@ public class CloudOperationsService implements IService {
 				response.setStatus("FAILURE");
 				response.setErrorMessage("Either User doesnt exists or the credentials are incorrect");
 			} else {
-				//download from cloud
+				List<Object> list = new ArrayList<Object>();
+				AmazonCloudOperations aco = new AmazonCloudOperations();
+				for (String fileName : request.getFileNames())
+					list.add(aco.downloadFile(fileName, request.getUserName()));
 				response.setStatus("SUCCESS");
+				response.setList(list);
 			}
 		} catch (InvalidRequestException e) {
 			e.printStackTrace();
@@ -65,8 +70,8 @@ public class CloudOperationsService implements IService {
 				response.setErrorMessage("Either User doesnt exists or the credentials are incorrect");
 			} else {
 				InputStream is = getFileObject(request.getFile());
-				// to do connect to cloud and send the inputstream
-
+				AmazonCloudOperations aco = new AmazonCloudOperations();
+				aco.uploadFile(is, request.getFileName(), request.getUserName());
 				response.setStatus("SUCCESS");
 			}
 		} catch (InvalidRequestException e) {
@@ -98,16 +103,15 @@ public class CloudOperationsService implements IService {
 			if (request.getPassword() == null || request.getUserName() == null)
 				throw new InvalidRequestException(
 						"Empty username or password sent");
-		}else
-			if(dto instanceof DropBoxDownloadRequest){
-				DropBoxDownloadRequest request = (DropBoxDownloadRequest) dto;
-				if (request.getFileNames() == null)
-					throw new InvalidRequestException("Empty File sent");
+		} else if (dto instanceof DropBoxDownloadRequest) {
+			DropBoxDownloadRequest request = (DropBoxDownloadRequest) dto;
+			if (request.getFileNames() == null)
+				throw new InvalidRequestException("Empty File sent");
 
-				if (request.getPassword() == null || request.getUserName() == null)
-					throw new InvalidRequestException(
-							"Empty username or password sent");
-			}
+			if (request.getPassword() == null || request.getUserName() == null)
+				throw new InvalidRequestException(
+						"Empty username or password sent");
+		}
 	}
 
 }
