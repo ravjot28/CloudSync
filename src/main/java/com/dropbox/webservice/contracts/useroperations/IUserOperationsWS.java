@@ -5,6 +5,8 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
+import com.dropbox.useroperations.model.DropBoxLoginRequest;
+import com.dropbox.useroperations.model.DropBoxLoginResponse;
 import com.dropbox.useroperations.model.DropBoxRegistrationRequest;
 import com.dropbox.useroperations.model.DropBoxRegistrationResponse;
 
@@ -15,6 +17,13 @@ public interface IUserOperationsWS {
 	@WebResult(name = "RegistrationResponse")
 	public DropBoxRegistrationResponse registerUser(
 			@WebParam(name = "RegistrationRequest") DropBoxRegistrationRequest request)
+			throws Exception;
+	
+	
+	@WebMethod(operationName = "AuthenticateUser")
+	@WebResult(name = "AuthenticationResponse")
+	public DropBoxLoginResponse authenticateUser(
+			@WebParam(name = "AuthenticationRequest") DropBoxLoginRequest request)
 			throws Exception;
 
 }
