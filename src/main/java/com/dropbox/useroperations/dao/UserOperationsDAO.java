@@ -20,6 +20,7 @@ public class UserOperationsDAO {
 		DropBoxUserBean bean = new DropBoxUserBean();
 		bean.setPassword(request.getPassword());
 		bean.setUserName(request.getUserName());
+		bean.setEmailAddress(request.getEmailAddress());
 		bean.setActive("Y");
 		Session session = null;
 

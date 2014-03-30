@@ -23,6 +23,15 @@ public class DropBoxUserBean implements Serializable {
 	private String userName;
 	private String password;
 	private String active;
+	private String emailAddress;
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
 
 	public int getUserId() {
 		return userId;
