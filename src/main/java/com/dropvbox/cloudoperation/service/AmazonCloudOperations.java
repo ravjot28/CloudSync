@@ -1,6 +1,8 @@
 package com.dropvbox.cloudoperation.service;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.amazonaws.AmazonWebServiceClient;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
@@ -10,7 +12,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 public class AmazonCloudOperations {
 	private AmazonS3 s3;
@@ -21,8 +26,21 @@ public class AmazonCloudOperations {
 		Region usWest2 = Region.getRegion(Regions.US_WEST_2);
 		((AmazonWebServiceClient) s3).setRegion(usWest2);
 	}
+	
+	public List<String> getFiles(String userName){
+		List<String> list= null;
+		ObjectListing bucketList = s3.listObjects(new ListObjectsRequest().withBucketName(userName));
+		if(bucketList!=null){
+			list = new ArrayList<String>();
+		}
+		for (S3ObjectSummary objectSummary : bucketList.getObjectSummaries()) {
+			list.add(objectSummary.getKey());
+		}
+		return list;
+	}
 
 	public void uploadFile(InputStream is, String fileName, String userName) {
+		System.out.println("hell");
 		if (!isBucketPresent(userName)) {
 			s3.createBucket(userName);
 		}
@@ -32,6 +50,7 @@ public class AmazonCloudOperations {
 	private boolean isBucketPresent(String bucketName) {
 		boolean present = false;
 		for (Bucket bucket : s3.listBuckets()) {
+			System.out.println(bucket.getName());
 			if (bucket.getName() != null && bucket.getName().equals(bucketName)) {
 				present = true;
 				break;

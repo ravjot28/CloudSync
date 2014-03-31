@@ -1,21 +1,9 @@
 package com.dropbox.cloudoperations.model;
 
+public class DropBoxGetFilesRequest {
 
-public class DropBoxDownloadRequest {
-
-	private String fileName;
 	private String userName;
 	private String password;
-
-	
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 
 	public String getUserName() {
 		return userName;

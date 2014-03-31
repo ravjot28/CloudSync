@@ -7,6 +7,8 @@ import javax.jws.WebService;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
+import com.dropbox.cloudoperations.model.DropBoxGetFilesRequest;
+import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 
@@ -23,5 +25,10 @@ public interface ICloudOperationsWS {
 	@WebResult(name = "DownloadFileResponse")
 	public DropBoxDownloadResponse downloadFiles(
 			@WebParam(name = "DownloadFileRequest") DropBoxDownloadRequest request);
-
+	
+	
+	@WebMethod(operationName = "GetFiles")
+	@WebResult(name = "GetFilesResponse")
+	public DropBoxGetFilesResponse getFiles(
+			@WebParam(name = "GetFilesRequest") DropBoxGetFilesRequest request);
 }

@@ -5,6 +5,8 @@ import javax.xml.ws.soap.MTOM;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
+import com.dropbox.cloudoperations.model.DropBoxGetFilesRequest;
+import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.webservice.contracts.cloudoperations.ICloudOperationsWS;
@@ -18,13 +20,21 @@ public class CloudOperationsWS implements ICloudOperationsWS {
 	public DropBoxUploadResponse uploadFile(DropBoxUploadRequest request)
 			throws Exception {
 		DropBoxUploadResponse response = null;
-		new CloudOperationsService().processRequest(request);
+		response = (DropBoxUploadResponse) new CloudOperationsService().processRequest(request);
 		return response;
 	}
 
 	@Override
 	public DropBoxDownloadResponse downloadFiles(DropBoxDownloadRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		DropBoxDownloadResponse response = null;
+		response = (DropBoxDownloadResponse) new CloudOperationsService().processRequest(request);
+		return response;
+	}
+
+	@Override
+	public DropBoxGetFilesResponse getFiles(DropBoxGetFilesRequest request) {
+		DropBoxGetFilesResponse response = null;
+		response = (DropBoxGetFilesResponse) new CloudOperationsService().processRequest(request);
+		return response;
 	}
 }
