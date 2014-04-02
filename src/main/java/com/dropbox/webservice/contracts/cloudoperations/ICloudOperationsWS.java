@@ -20,15 +20,15 @@ public interface ICloudOperationsWS {
 	public DropBoxUploadResponse uploadFile(
 			@WebParam(name = "UploadRequest") DropBoxUploadRequest request)
 			throws Exception;
-	
+
 	@WebMethod(operationName = "DownloadFile")
 	@WebResult(name = "DownloadFileResponse")
 	public DropBoxDownloadResponse downloadFiles(
 			@WebParam(name = "DownloadFileRequest") DropBoxDownloadRequest request);
-	
-	
+
 	@WebMethod(operationName = "GetFiles")
 	@WebResult(name = "GetFilesResponse")
 	public DropBoxGetFilesResponse getFiles(
 			@WebParam(name = "GetFilesRequest") DropBoxGetFilesRequest request);
+
 }

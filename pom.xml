@@ -63,6 +63,12 @@
 			<artifactId>hibernate3-api</artifactId>
 			<version>3.6.10</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>RavBase64</groupId>
+			<artifactId>RavBase64-API</artifactId>
+			<version>1.0</version>
+		</dependency>
 
 		<!-- Hibernate framework -->
 		<dependency>
