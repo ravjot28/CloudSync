@@ -5,8 +5,11 @@ import javax.xml.ws.soap.MTOM;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyRequest;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyResponse;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesRequest;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
+import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.webservice.contracts.cloudoperations.ICloudOperationsWS;
@@ -37,4 +40,22 @@ public class CloudOperationsWS implements ICloudOperationsWS {
 		response = (DropBoxGetFilesResponse) new CloudOperationsService().processRequest(request);
 		return response;
 	}
+
+	@Override
+	public DropBoxGenerateSharingKeyResponse getFileShareKey(
+			DropBoxGenerateSharingKeyRequest request) {
+		DropBoxGenerateSharingKeyResponse response = null;
+		response = (DropBoxGenerateSharingKeyResponse) new CloudOperationsService().processRequest(request);
+		return response;
+	}
+
+	@Override
+	public DropBoxDownloadResponse getSharedFile(
+			DropBoxGetSharedFileRequest request) {
+		DropBoxDownloadResponse response = null;
+		response = (DropBoxDownloadResponse) new CloudOperationsService().processRequest(request);
+		return response;
+	}
+
+	
 }

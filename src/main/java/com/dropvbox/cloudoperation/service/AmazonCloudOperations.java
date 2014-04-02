@@ -1,8 +1,15 @@
 package com.dropvbox.cloudoperation.service;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 
 import com.amazonaws.AmazonWebServiceClient;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
@@ -26,11 +33,12 @@ public class AmazonCloudOperations {
 		Region usWest2 = Region.getRegion(Regions.US_WEST_2);
 		((AmazonWebServiceClient) s3).setRegion(usWest2);
 	}
-	
-	public List<String> getFiles(String userName){
-		List<String> list= null;
-		ObjectListing bucketList = s3.listObjects(new ListObjectsRequest().withBucketName(userName));
-		if(bucketList!=null){
+
+	public List<String> getFiles(String userName) {
+		List<String> list = null;
+		ObjectListing bucketList = s3.listObjects(new ListObjectsRequest()
+				.withBucketName(userName));
+		if (bucketList != null) {
 			list = new ArrayList<String>();
 		}
 		for (S3ObjectSummary objectSummary : bucketList.getObjectSummaries()) {
@@ -60,11 +68,26 @@ public class AmazonCloudOperations {
 		return present;
 	}
 
-	public Object downloadFile(String fileName, String userName) {
+	public byte[] downloadFile(String fileName, String userName) {
 		S3Object object = s3
 				.getObject(new GetObjectRequest(userName, fileName));
+		byte[] fileBytes = null;
+		try {
+			IOUtils.copy(object.getObjectContent(), new FileOutputStream(
+					userName + "" + fileName));
 
-		return object.getObjectContent();
+			File file = new File(userName + "" + fileName);
+
+			FileInputStream fis = new FileInputStream(file);
+			BufferedInputStream inputStream = new BufferedInputStream(fis);
+			fileBytes = new byte[(int) file.length()];
+			inputStream.read(fileBytes);
+			inputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fileBytes;
 	}
 
 }

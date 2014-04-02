@@ -41,7 +41,11 @@
 			<artifactId>stringtemplate</artifactId>
 			<version>3.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
 
 
 		<!--Postgres database driver -->
@@ -63,7 +67,7 @@
 			<artifactId>hibernate3-api</artifactId>
 			<version>3.6.10</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>RavBase64</groupId>
 			<artifactId>RavBase64-API</artifactId>

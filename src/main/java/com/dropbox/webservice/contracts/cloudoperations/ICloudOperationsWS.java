@@ -7,8 +7,11 @@ import javax.jws.WebService;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyRequest;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyResponse;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesRequest;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
+import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 
@@ -30,5 +33,15 @@ public interface ICloudOperationsWS {
 	@WebResult(name = "GetFilesResponse")
 	public DropBoxGetFilesResponse getFiles(
 			@WebParam(name = "GetFilesRequest") DropBoxGetFilesRequest request);
+	
+	@WebMethod(operationName = "GetFileShareKey")
+	@WebResult(name = "GetFileShareKeyResponse")
+	public DropBoxGenerateSharingKeyResponse getFileShareKey(
+			@WebParam(name = "GetFileShareKeyRequest") DropBoxGenerateSharingKeyRequest request);
+	
+	@WebMethod(operationName = "GetFileShareKey")
+	@WebResult(name = "GetFileShareKeyResponse")
+	public DropBoxDownloadResponse getSharedFile(
+			@WebParam(name = "GetFileShareKeyRequest") DropBoxGetSharedFileRequest request);
 
 }

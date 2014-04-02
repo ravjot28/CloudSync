@@ -70,6 +70,40 @@ public class UserOperationsDAO {
 		}
 		return user;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public DropBoxUserBean searchUser(int userId) throws Exception {
+		DropBoxUserBean user = null;
+		try {
+			Session session = DatabaseConfig.getSessionFactory().openSession();
+
+			session.beginTransaction();
+
+			Criteria crit = session.createCriteria(DropBoxUserBean.class);
+			Criterion userNameRestriction = Restrictions.eq("userId",
+					userId);
+
+			Criterion activeRestriction = Restrictions.eq("active", "Y");
+
+			LogicalExpression andExp = Restrictions.and(userNameRestriction,
+					activeRestriction);
+			crit.add(andExp);
+
+			List<DropBoxUserBean> userList = ((List<DropBoxUserBean>) crit
+					.list());
+
+			if (userList != null && userList.size() > 0) {
+				user = userList.get(0);
+			}
+
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return user;
+	}
 
 	@SuppressWarnings("unchecked")
 	public DropBoxUserBean validateUserPasssword(String userName,

@@ -2,17 +2,21 @@ package com.dropvbox.cloudoperation.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.StringTokenizer;
 
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyRequest;
+import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyResponse;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesRequest;
 import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
+import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.exception.InvalidRequestException;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
+import com.dropbox.useropertations.bean.DropBoxUserBean;
+import com.dropbox.util.CustomEncryptionImpl;
 import com.dropdox.service.IService;
 
 public class CloudOperationsService implements IService {
@@ -25,7 +29,70 @@ public class CloudOperationsService implements IService {
 			response = downloadFiles((DropBoxDownloadRequest) dto);
 		else if (dto instanceof DropBoxGetFilesRequest)
 			response = getFiles((DropBoxGetFilesRequest) dto);
+		else if (dto instanceof DropBoxGenerateSharingKeyRequest)
+			response = getSharedKey((DropBoxGenerateSharingKeyRequest) dto);
+		else if (dto instanceof DropBoxGetSharedFileRequest)
+			response = getSharedFile((DropBoxGetSharedFileRequest) dto);
+		return response;
+	}
 
+	private Object getSharedFile(DropBoxGetSharedFileRequest request) {
+		DropBoxDownloadResponse response = null;
+		UserOperationsDAO dao = new UserOperationsDAO();
+		try {
+			dao.validateUserPasssword(request.getUserName(),
+					request.getPassword());
+			CustomEncryptionImpl impl = CustomEncryptionImpl.getInstance();
+
+			String key = impl.decryptNum(request.getKey());
+			StringTokenizer token = new StringTokenizer(key, ":");
+			String password = token.nextToken();
+			int userId = Integer.parseInt(token.nextToken());
+			String sharedUserName = token.nextToken();
+			String fileName = token.nextToken();
+
+			if (sharedUserName.equals(request.getUserName())) {
+				DropBoxUserBean bean = dao.searchUser(userId);
+				DropBoxDownloadRequest req = new DropBoxDownloadRequest();
+				req.setFileName(fileName);
+				req.setPassword(password);
+				req.setUserName(bean.getUserName());
+
+				response = (DropBoxDownloadResponse) downloadFiles(req);
+			} else {
+				response = new DropBoxDownloadResponse();
+				response.setErrorMessage("Shared User Name is mismatching");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response = new DropBoxDownloadResponse();
+			response.setErrorMessage(e.getMessage());
+		}
+		return response;
+	}
+
+	private Object getSharedKey(DropBoxGenerateSharingKeyRequest request) {
+		DropBoxGenerateSharingKeyResponse response = null;
+		UserOperationsDAO dao = new UserOperationsDAO();
+		try {
+			DropBoxUserBean bean = dao.validateUserPasssword(
+					request.getUserName(), request.getPassword());
+
+			CustomEncryptionImpl impl = CustomEncryptionImpl.getInstance();
+
+			String key = impl.encryptNum(bean.getUserId(),
+					request.getPassword(), request.getSharedUserName(),
+					request.getFileName());
+
+			response = new DropBoxGenerateSharingKeyResponse();
+			response.setKey(key);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response = new DropBoxGenerateSharingKeyResponse();
+			response.setKey(null);
+		}
 		return response;
 	}
 
@@ -49,13 +116,11 @@ public class CloudOperationsService implements IService {
 				response.setStatus("FAILURE");
 				response.setErrorMessage("Either User doesn't exist or the credentials are incorrect");
 			} else {
-				List<Object> list = new ArrayList<Object>();
 				AmazonCloudOperations aco = new AmazonCloudOperations();
 
-				list.add(aco.downloadFile(request.getFileName(),
-						request.getUserName()));
 				response.setStatus("SUCCESS");
-				response.setList(list);
+				response.setFile(aco.downloadFile(request.getFileName(),
+						request.getUserName()));
 			}
 		} catch (InvalidRequestException e) {
 			e.printStackTrace();

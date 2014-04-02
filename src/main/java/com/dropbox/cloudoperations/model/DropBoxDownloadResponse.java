@@ -1,9 +1,8 @@
 package com.dropbox.cloudoperations.model;
 
-import java.util.List;
 
 public class DropBoxDownloadResponse {
-	private List<Object> list;
+	private byte[] file;
 	private String status;
 	private String errorMessage;
 
@@ -23,12 +22,12 @@ public class DropBoxDownloadResponse {
 		this.errorMessage = errorMessage;
 	}
 
-	public List<Object> getList() {
-		return list;
+	public byte[] getFile() {
+		return file;
 	}
 
-	public void setList(List<Object> list) {
-		this.list = list;
+	public void setFile(byte[] file) {
+		this.file = file;
 	}
 
 }
