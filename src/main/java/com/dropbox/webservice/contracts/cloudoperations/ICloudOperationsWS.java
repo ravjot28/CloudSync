@@ -39,7 +39,7 @@ public interface ICloudOperationsWS {
 	public DropBoxGenerateSharingKeyResponse getFileShareKey(
 			@WebParam(name = "GetFileShareKeyRequest") DropBoxGenerateSharingKeyRequest request);
 	
-	@WebMethod(operationName = "GetFileShareKey")
+	@WebMethod(operationName = "GetSharedFile")
 	@WebResult(name = "GetFileShareKeyResponse")
 	public DropBoxDownloadResponse getSharedFile(
 			@WebParam(name = "GetFileShareKeyRequest") DropBoxGetSharedFileRequest request);
