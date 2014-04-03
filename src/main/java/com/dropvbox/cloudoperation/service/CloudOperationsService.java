@@ -59,6 +59,7 @@ public class CloudOperationsService implements IService {
 				req.setUserName(bean.getUserName());
 
 				response = (DropBoxDownloadResponse) downloadFiles(req);
+				response.setFileName(fileName);
 			} else {
 				response = new DropBoxDownloadResponse();
 				response.setErrorMessage("Shared User Name is mismatching");

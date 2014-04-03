@@ -1,8 +1,8 @@
 package com.dropbox.cloudoperations.model;
 
-
 public class DropBoxDownloadResponse {
 	private byte[] file;
+	private String fileName;
 	private String status;
 	private String errorMessage;
 
@@ -28,6 +28,14 @@ public class DropBoxDownloadResponse {
 
 	public void setFile(byte[] file) {
 		this.file = file;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }
