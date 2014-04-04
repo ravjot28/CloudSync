@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.amazonaws.samples</groupId>
-	<artifactId>aws-java-sample</artifactId>
+	<artifactId>CloudShare</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 	<name>Dropbox</name>
