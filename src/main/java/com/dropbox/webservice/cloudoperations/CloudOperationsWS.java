@@ -3,6 +3,7 @@ package com.dropbox.webservice.cloudoperations;
 import javax.jws.WebService;
 import javax.xml.ws.soap.MTOM;
 
+import com.dropbox.cloudoperation.service.CloudOperationsService;
 import com.dropbox.cloudoperations.model.DropBoxDownloadRequest;
 import com.dropbox.cloudoperations.model.DropBoxDownloadResponse;
 import com.dropbox.cloudoperations.model.DropBoxGenerateSharingKeyRequest;
@@ -13,7 +14,6 @@ import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.webservice.contracts.cloudoperations.ICloudOperationsWS;
-import com.dropvbox.cloudoperation.service.CloudOperationsService;
 
 @MTOM
 @WebService(endpointInterface = "com.dropbox.webservice.contracts.cloudoperations.ICloudOperationsWS", serviceName = "CloudOperationsService", portName = "CloudOperationsPort")

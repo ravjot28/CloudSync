@@ -1,10 +1,10 @@
 package com.dropbox.useroperations.service;
 
 import com.dropbox.exception.InvalidRequestException;
+import com.dropbox.service.IService;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropbox.useroperations.model.DropBoxRegistrationRequest;
 import com.dropbox.useroperations.model.DropBoxRegistrationResponse;
-import com.dropdox.service.IService;
 
 public class RegistrationService implements IService {
 

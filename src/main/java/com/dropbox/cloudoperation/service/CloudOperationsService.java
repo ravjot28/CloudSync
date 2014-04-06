@@ -1,4 +1,4 @@
-package com.dropvbox.cloudoperation.service;
+package com.dropbox.cloudoperation.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -14,10 +14,10 @@ import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.exception.InvalidRequestException;
+import com.dropbox.service.IService;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropbox.useropertations.bean.DropBoxUserBean;
 import com.dropbox.util.CustomEncryptionImpl;
-import com.dropdox.service.IService;
 
 public class CloudOperationsService implements IService {
 	@Override
