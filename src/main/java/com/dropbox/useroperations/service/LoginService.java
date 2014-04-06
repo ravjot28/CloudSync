@@ -35,7 +35,7 @@ public class LoginService implements IService {
 
 	@Override
 	public void validateRequest(Object dto) throws Exception {
-		DropBoxRegistrationRequest request = (DropBoxRegistrationRequest) dto;
+		DropBoxLoginRequest request = (DropBoxLoginRequest) dto;
 		UserOperationsDAO dao = null;
 
 		if (request.getPassword() == null || request.getUserName() == null)
