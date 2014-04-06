@@ -15,8 +15,8 @@ import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
 import com.dropbox.exception.InvalidRequestException;
 import com.dropbox.service.IService;
+import com.dropbox.useroperations.bean.DropBoxUserBean;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
-import com.dropbox.useropertations.bean.DropBoxUserBean;
 import com.dropbox.util.CustomEncryptionImpl;
 
 public class CloudOperationsService implements IService {

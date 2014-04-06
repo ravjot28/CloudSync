@@ -1,4 +1,4 @@
-package com.dropbox.useropertations.bean;
+package com.dropbox.useroperations.bean;
 
 import java.io.Serializable;
 

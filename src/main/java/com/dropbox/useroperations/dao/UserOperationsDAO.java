@@ -9,8 +9,8 @@ import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.Restrictions;
 
 import com.dropbox.dao.DatabaseConfig;
+import com.dropbox.useroperations.bean.DropBoxUserBean;
 import com.dropbox.useroperations.model.DropBoxRegistrationRequest;
-import com.dropbox.useropertations.bean.DropBoxUserBean;
 
 public class UserOperationsDAO {
 
