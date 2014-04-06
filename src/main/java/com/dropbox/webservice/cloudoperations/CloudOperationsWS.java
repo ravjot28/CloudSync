@@ -13,6 +13,7 @@ import com.dropbox.cloudoperations.model.DropBoxGetFilesResponse;
 import com.dropbox.cloudoperations.model.DropBoxGetSharedFileRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadRequest;
 import com.dropbox.cloudoperations.model.DropBoxUploadResponse;
+import com.dropbox.util.EncryptDecryptByteArr;
 import com.dropbox.webservice.contracts.cloudoperations.ICloudOperationsWS;
 
 @MTOM
@@ -23,7 +24,15 @@ public class CloudOperationsWS implements ICloudOperationsWS {
 	public DropBoxUploadResponse uploadFile(DropBoxUploadRequest request)
 			throws Exception {
 		DropBoxUploadResponse response = null;
-		response = (DropBoxUploadResponse) new CloudOperationsService().processRequest(request);
+		try {
+			request.setFile(EncryptDecryptByteArr.encrypt(request.getFile()));
+			response = (DropBoxUploadResponse) new CloudOperationsService().processRequest(request);
+		} catch (Exception e) {
+			response = new DropBoxUploadResponse();
+			response.setErrorMessage("Encryption failed");
+			response.setStatus("FAIL");
+		}
+		
 		return response;
 	}
 
@@ -31,6 +40,12 @@ public class CloudOperationsWS implements ICloudOperationsWS {
 	public DropBoxDownloadResponse downloadFiles(DropBoxDownloadRequest request) {
 		DropBoxDownloadResponse response = null;
 		response = (DropBoxDownloadResponse) new CloudOperationsService().processRequest(request);
+		try {
+			response.setFile(EncryptDecryptByteArr.decrypt(response.getFile()));
+		} catch (Exception e) {
+			response.setErrorMessage("Decryption failed");
+			response.setStatus("FAIL");
+		}
 		return response;
 	}
 
@@ -54,6 +69,15 @@ public class CloudOperationsWS implements ICloudOperationsWS {
 			DropBoxGetSharedFileRequest request) {
 		DropBoxDownloadResponse response = null;
 		response = (DropBoxDownloadResponse) new CloudOperationsService().processRequest(request);
+		
+		try {
+			response.setFile(EncryptDecryptByteArr.decrypt(response.getFile()));
+		} catch (Exception e) {
+			response.setErrorMessage("Decryption failed");
+			response.setStatus("FAIL");
+		}
+		
+		
 		return response;
 	}
 
