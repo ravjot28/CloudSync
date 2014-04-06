@@ -28,7 +28,7 @@
 
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">create</property>
-		<mapping class="com.dropbox.useropertations.bean.DropBoxUserBean" />
+		<mapping class="com.dropbox.useroperations.bean.DropBoxUserBean" />
 		
 	</session-factory>
 </hibernate-configuration>
