@@ -4,7 +4,6 @@ import com.dropbox.exception.InvalidRequestException;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropbox.useroperations.model.DropBoxLoginRequest;
 import com.dropbox.useroperations.model.DropBoxLoginResponse;
-import com.dropbox.useroperations.model.DropBoxRegistrationRequest;
 import com.dropdox.service.IService;
 
 public class LoginService implements IService {
