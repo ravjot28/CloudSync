@@ -5,6 +5,7 @@ import com.dropbox.service.IService;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropbox.useroperations.model.DropBoxRegistrationRequest;
 import com.dropbox.useroperations.model.DropBoxRegistrationResponse;
+import com.dropbox.util.SendMail;
 
 public class RegistrationService implements IService {
 
@@ -18,6 +19,12 @@ public class RegistrationService implements IService {
 			dao.registerUser((DropBoxRegistrationRequest) dto);
 			response = new DropBoxRegistrationResponse();
 			response.setStatus("SUCCESS");
+			String[] to = { ((DropBoxRegistrationRequest) dto).getUserName() };
+			String[] at = null;
+			SendMail sm = new SendMail("cloudsharecisc839@gmail.com", "cloudshare1234",
+					"Hi "+((DropBoxRegistrationRequest) dto).getUserName()+"\n Welcome"
+					,"Welcome", at, to);
+			sm.send();
 		} catch (InvalidRequestException e1) {
 			response = new DropBoxRegistrationResponse();
 			response.setStatus("FAILURE");

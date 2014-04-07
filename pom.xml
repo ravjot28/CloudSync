@@ -73,6 +73,13 @@
 			<artifactId>RavBase64-API</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>jsse</groupId>
+			<artifactId>jsse-API</artifactId>
+			<version>1</version>
+		</dependency>
+		
 
 		<!-- Hibernate framework -->
 		<dependency>

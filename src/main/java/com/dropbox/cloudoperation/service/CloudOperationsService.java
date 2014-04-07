@@ -18,6 +18,7 @@ import com.dropbox.service.IService;
 import com.dropbox.useroperations.bean.DropBoxUserBean;
 import com.dropbox.useroperations.dao.UserOperationsDAO;
 import com.dropbox.util.CustomEncryptionImpl;
+import com.dropbox.util.SendMail;
 
 public class CloudOperationsService implements IService {
 	@Override
@@ -88,6 +89,13 @@ public class CloudOperationsService implements IService {
 
 			response = new DropBoxGenerateSharingKeyResponse();
 			response.setKey(key);
+			
+			String[] to = { request.getSharedUserName() };
+			String[] at = null;
+			SendMail sm = new SendMail("cloudsharecisc839@gmail.com", "cloudshare1234",
+					"Hi "+request.getSharedUserName()+"\n "+request.getUserName()+" shared a file \n"
+					+request.getFileName()+" with you.Please note the key "+response.getKey(),request.getUserName()+ " shared "+request.getFileName(), at, to);
+			sm.send();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +109,7 @@ public class CloudOperationsService implements IService {
 		DropBoxGetFilesResponse response = null;
 		AmazonCloudOperations aco = new AmazonCloudOperations();
 		response = new DropBoxGetFilesResponse();
-		response.setFilesName(aco.getFiles(request.getUserName()));
+		response.setFilesName(aco.getFiles(request.getUserName().replaceAll("@", "-")));
 		return response;
 	}
 
@@ -121,7 +129,7 @@ public class CloudOperationsService implements IService {
 
 				response.setStatus("SUCCESS");
 				response.setFile(aco.downloadFile(request.getFileName(),
-						request.getUserName()));
+						request.getUserName().replaceAll("@", "-")));
 			}
 		} catch (InvalidRequestException e) {
 			e.printStackTrace();
@@ -150,7 +158,7 @@ public class CloudOperationsService implements IService {
 			} else {
 				InputStream is = getFileObject(request.getFile());
 				AmazonCloudOperations aco = new AmazonCloudOperations();
-				aco.uploadFile(is, request.getFileName(), request.getUserName());
+				aco.uploadFile(is, request.getFileName(), request.getUserName().replaceAll("@", "-"));
 				response.setStatus("SUCCESS");
 			}
 		} catch (InvalidRequestException e) {
